@@ -14,12 +14,12 @@ def test_pmf():
     assert all(isclose(v, 1 / dist.k) for v in pmf.values())
 
 
-def test_cdf():
-    cdf = dist.cdf()
+def test_cmf():
+    cdf = dist.cmf()
     # Last value should be 1.0
-    assert isclose(list(cdf.values())[-1], 1.0)
+    assert isclose(list(cmf.values())[-1], 1.0)
     # CDF should be non-decreasing
-    vals = list(cdf.values())
+    vals = list(cmf.values())
     assert all(vals[i] <= vals[i + 1] for i in range(len(vals) - 1))
 
 
