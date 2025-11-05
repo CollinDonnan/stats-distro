@@ -12,6 +12,7 @@ def home():
 
 @app.route('/<distro>/<float:n>/<int:trials>', methods=['GET', 'POST'])
 def stats(distro, n, trials):
+    n = round(n,5)
     try:
         n_val = float(n)
     except (TypeError, ValueError):

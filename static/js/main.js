@@ -20,7 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const distro = (distros.value || 'integer').toString().trim().toLowerCase();
         // ensure probEl exists and parse as float with fallback 0.0
         console.log(probEl);
-        const n = (probEl && typeof probEl.value !== 'undefined') ? (parseFloat((probEl.value || '').toString().trim()) || 0.0) : 0.0;
+         n = (probEl && typeof probEl.value !== 'undefined') ? (parseFloat((probEl.value || '').toString().trim()) || 0.0) : 0.0;
+        if (n == 1) {
+            n = 1.00000000001
+        }
         const trials = parseInt((trialsEl.value || '').toString().trim(), 10) || 0;
 
         const url = `/${distro}/${n}/${trials}`;
