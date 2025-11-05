@@ -15,7 +15,7 @@ def test_pmf():
 
 
 def test_cmf():
-    cdf = dist.cmf()
+    cmf = dist.cmf()
     # Last value should be 1.0
     assert isclose(list(cmf.values())[-1], 1.0)
     # CDF should be non-decreasing
