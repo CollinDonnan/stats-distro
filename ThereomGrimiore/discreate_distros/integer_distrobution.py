@@ -1,24 +1,20 @@
 class integer_distribution:
     def __init__(self, k):
-        self.k = k
+        self.k = k  # number of equally likely outcomes
 
     def pmf(self):
-        pmf = {}
-        for i in range(self.k):
-            pmf.update({i: 1 / self.k})
-        return pmf
+        return {i: 1 / self.k for i in range(self.k)}
 
-    def cmf(self):
+    def cdf(self):
         cdf = {}
         cumulative = 0
         for i in range(self.k):
             cumulative += 1 / self.k
-            cdf.update({i: cumulative})
+            cdf[i] = cumulative
         return cdf
-    
+
     def mgf(self):
-        return f"(e^t(1-e^t{self.k}))/({self.k}(1-e^t)))"
-    
+        return f"(1/{self.k}) * ((1 - e^({self.k}*t)) / (1 - e^t))"
 
     def mean(self):
         return (self.k - 1) / 2

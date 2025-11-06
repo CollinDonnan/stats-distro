@@ -16,7 +16,7 @@ class binomial_distribution:
         return self.variance() ** 0.5
 
     def mgf(self):
-        return f"(1 - {self.p} + {self.p} * e^t)^{self.n}"
+        return f"(1 - {self.p} + {self.p} * e^(t))^{self.n}"
 
 
     def pmf(self):
