@@ -25,14 +25,14 @@ CI - Github Actions, uv, ty, ruff
 
 3. uv sync
 
-4. cd stas-distro
+4. cd stats-distro
 
 5. python3 app.py
 
 
 # Supports
 
-Currently this app supports the Bernoulli and intetger distributions
+Currently this app supports the Bernoulli, binomial, and intetger distributions
 
 # Features
 
