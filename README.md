@@ -28,7 +28,7 @@ It computes key statistical properties — mean, variance, standard deviation, a
 
 ## 🧮 Supported Distributions
 
-Currently, the app supports **Bernoulli**, **Binomial**, and **Integer** distributions.  
+Currently, the app supports **Bernoulli**, **Binomial**, **Geometric**, and **Integer** distributions.  
 More distributions are planned in future releases.
 
 ---
