@@ -42,7 +42,7 @@ def bernoulli(n):
     n = round(n,5)
     try:
             dist = bernoulli_distro.bernoulli_distribution(n)
-            return jsonify({"pmf": dist.pmf(), "mean": dist.mean(), "variance": dist.variance(), "stddev": dist.stddev(), "mgf": dist.mgf(), "cmf": dist.cdf()})
+            return jsonify({"pmf": dist.pmf(), "mean": dist.mean(), "variance": dist.variance(), "stddev": dist.stddev(), "mgf": dist.mgf(), "cdf": dist.cdf()})
     except Exception as e:
         return jsonify({"error": str(e)}), 400
     
