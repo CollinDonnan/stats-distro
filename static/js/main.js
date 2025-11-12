@@ -51,8 +51,6 @@ function updateInputs() {
    trialsEl = document.getElementById("trials");
  probEl = document.getElementById("success_rate");
    enter = document.getElementById("enter");
- console.log(trials)
- console.log(probEl)
 }
 
 // Initial load
@@ -65,13 +63,16 @@ distros.addEventListener('change', updateInputs);
     e.preventDefault();
 
     const distro = distros.value.toLowerCase();
-    p = parseFloat(probEl.value);
-    const trials = parseInt(trialsEl.value);
-    if (p == 1){
+    console.log(distro)
+  pmf = null
+  cdf = null
+  if (distro == "binomial" || distro == "geometric"){
+        p = parseFloat(probEl.value);
+                if (p == 1){
         //will be fixed on backend
         p = 1.000001
     }
-
+    const trials = parseInt(trialsEl.value);
     const response = await fetch(`/${distro}/${p}/${trials}`);
     const data = await response.json();
 
@@ -79,8 +80,38 @@ distros.addEventListener('change', updateInputs);
     variance.textContent = `Variance: ${data.variance}`;
     stddev.textContent = `Standard Deviation: ${data.stddev}`;
     mgf.textContent = `Moment Generating Function: ${data.mgf}`;
+    pmf = data.pmf
+    cdf = data.cdf
+  } else if (distro == "bernoulli"){
+        p = parseFloat(probEl.value);
+                if (p == 1){
+        //will be fixed on backend
+        p = 1.000001
+    }
+    const response = await fetch(`/${distro}/${p}`);
+    const data = await response.json();
 
-    drawCharts(data.pmf, data.cdf);
+    mean.textContent = `Mean: ${data.mean}`;
+    variance.textContent = `Variance: ${data.variance}`;
+    stddev.textContent = `Standard Deviation: ${data.stddev}`;
+    mgf.textContent = `Moment Generating Function: ${data.mgf}`;
+        pmf = data.pmf
+    cdf = data.cdf
+  }
+  else if (distro == "integer"){
+        const trials = parseInt(trialsEl.value);
+    const response = await fetch(`/${distro}/${trials}`);
+    const data = await response.json();
+
+    mean.textContent = `Mean: ${data.mean}`;
+    variance.textContent = `Variance: ${data.variance}`;
+    stddev.textContent = `Standard Deviation: ${data.stddev}`;
+    mgf.textContent = `Moment Generating Function: ${data.mgf}`;
+        pmf = data.pmf
+    cdf = data.cdf
+
+  }
+    drawCharts(pmf, cdf);
   });
 
   function drawCharts(pmf, cdf) {
