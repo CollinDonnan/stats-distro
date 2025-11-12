@@ -1,30 +1,78 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const enter = document.getElementById("enter");
-  const distros = document.getElementById("distros");
-  const trialsEl = document.getElementById("trials");
-  const probEl = document.getElementById("success_rate");
-
-  const mean = document.getElementById("mean");
-  const variance = document.getElementById("variance");
-  const stddev = document.getElementById("standard_deviation");
-  const mgf = document.getElementById("moment_generating_function");
+  enter = document.getElementById("enter");
+ distros = document.getElementById("distros");
+ trialsEl = document.getElementById("trials");
+ probEl = document.getElementById("success_rate");
+ mean = document.getElementById("mean");
+ variance = document.getElementById("variance");
+ stddev = document.getElementById("standard_deviation");
+ mgf = document.getElementById("moment_generating_function");
   const pmfCanvas = document.getElementById("pmf");
   const cdfCanvas = document.getElementById("cmf");
 
   let pmfChart = null;
   let cdfChart = null;
 
+
+const distributionInputs = document.getElementById('distributionInputs');
+
+function updateInputs() {
+  const selectedValue = distros.value;
+
+  if (selectedValue === "Integer") {
+    distributionInputs.innerHTML = `
+      <label for="trials">Trials (n):</label>
+      <input id="trials" type="number" min="1" max="100" step="1" placeholder="Number of trials" value="1" />
+    `;
+  } else if (selectedValue === "Bernoulli") {
+    distributionInputs.innerHTML = `
+      <label for="success_rate">Success rate (p):</label>
+      <input id="success_rate" type="number" min="0" max="1" step="0.01" placeholder="Success probability (0–1)" value="0.5" />
+    `;
+  } else if(selectedValue === "Geometric"){
+        distributionInputs.innerHTML = `
+      <label for="trials">Trials (n):</label>
+      <input id="trials" type="number" min="1" max="100" step="1" placeholder="Number of trials" value="1" />
+            <label for="success_rate">Success rate (p):</label>
+      <input id="success_rate" type="number" min="0" max="1" step="0.01" placeholder="Success probability (0–1)" value="0.5" />
+    `;
+
+  } else if(selectedValue === "Binomial"){
+            distributionInputs.innerHTML = `
+      <label for="trials">Trials (n):</label>
+      <input id="trials" type="number" min="1" max="100" step="1" placeholder="Number of trials" value="1" />
+            <label for="success_rate">Success rate (p):</label>
+      <input id="success_rate" type="number" min="0" max="1" step="0.01" placeholder="Success probability (0–1)" value="0.5" />
+    `;
+  }
+   else {
+    distributionInputs.innerHTML = ''; // for other distributions
+  }
+   trialsEl = document.getElementById("trials");
+ probEl = document.getElementById("success_rate");
+   enter = document.getElementById("enter");
+}
+
+// Initial load
+updateInputs();
+
+// Update inputs when selection changes
+distros.addEventListener('change', updateInputs);
+
   enter.addEventListener("click", async (e) => {
     e.preventDefault();
 
     const distro = distros.value.toLowerCase();
-    p = parseFloat(probEl.value);
-    const trials = parseInt(trialsEl.value);
-    if (p == 1){
+    console.log(distro)
+  pmf = null
+  cdf = null
+  if (distro == "binomial" || distro == "geometric"){
+        p = parseFloat(probEl.value);
+                if (p == 1){
         //will be fixed on backend
         p = 1.000001
     }
-
+    const trials = parseInt(trialsEl.value);
     const response = await fetch(`/${distro}/${p}/${trials}`);
     const data = await response.json();
 
@@ -32,8 +80,38 @@ document.addEventListener('DOMContentLoaded', () => {
     variance.textContent = `Variance: ${data.variance}`;
     stddev.textContent = `Standard Deviation: ${data.stddev}`;
     mgf.textContent = `Moment Generating Function: ${data.mgf}`;
+    pmf = data.pmf
+    cdf = data.cdf
+  } else if (distro == "bernoulli"){
+        p = parseFloat(probEl.value);
+                if (p == 1){
+        //will be fixed on backend
+        p = 1.000001
+    }
+    const response = await fetch(`/${distro}/${p}`);
+    const data = await response.json();
 
-    drawCharts(data.pmf, data.cdf);
+    mean.textContent = `Mean: ${data.mean}`;
+    variance.textContent = `Variance: ${data.variance}`;
+    stddev.textContent = `Standard Deviation: ${data.stddev}`;
+    mgf.textContent = `Moment Generating Function: ${data.mgf}`;
+        pmf = data.pmf
+    cdf = data.cdf
+  }
+  else if (distro == "integer"){
+        const trials = parseInt(trialsEl.value);
+    const response = await fetch(`/${distro}/${trials}`);
+    const data = await response.json();
+
+    mean.textContent = `Mean: ${data.mean}`;
+    variance.textContent = `Variance: ${data.variance}`;
+    stddev.textContent = `Standard Deviation: ${data.stddev}`;
+    mgf.textContent = `Moment Generating Function: ${data.mgf}`;
+        pmf = data.pmf
+    cdf = data.cdf
+
+  }
+    drawCharts(pmf, cdf);
   });
 
   function drawCharts(pmf, cdf) {
