@@ -15,8 +15,6 @@ jobs:
           run: pip install uv
         - name: Install dependancies
           run: uv sync --all-extras
-        - name: Install package
-          run: pip install -e .
         - name: Test
           run: uv run pytest
         - name: Lint with ruff
