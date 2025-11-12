@@ -30,8 +30,9 @@ def stats(distro, n, trials):
             idx = int(trials)
             dist = integer_distrobution.integer_distribution(idx)
             return jsonify({"pmf": dist.pmf(), "mean": dist.mean(), "variance": dist.variance(), "stddev": dist.stddev(), "cdf": dist.cdf(), "mgf": dist.mgf()})
-    except:
-        return jsonify({"error": "Invalid input"}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
 
 
     #distro doesnt match any implemented.
