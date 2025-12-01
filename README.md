@@ -7,7 +7,7 @@ It computes key statistical properties — mean, variance, standard deviation, a
 
 ## ⚙️ Tech Stack
 
-- **Deploymnet** AWS Elastic Beanstalk
+- **Deploymnet:** AWS Elastic Beanstalk
 - **Backend:** Flask (Python)  
 - **Frontend:** HTML, CSS, JavaScript, Chart.js  
 - **Templates:** Jinja2  
