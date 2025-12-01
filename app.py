@@ -3,13 +3,13 @@ from ThereomGrimiore.discreate_distros import bernoulli_distro
 import ThereomGrimiore.discreate_distros.integer_distrobution as integer_distrobution
 from ThereomGrimiore.discreate_distros.binomial_distro import binomial_distribution
 from ThereomGrimiore.discreate_distros.geometric_distro import geometric_distribution
-app = Flask(__name__)
+application = Flask(__name__)
 
-@app.route('/')
+@application.route('/')
 def home():
     return render_template('index.html')
 
-@app.route('/integer/<int:trials>', methods=['GET'])
+@application.route('/integer/<int:trials>', methods=['GET'])
 def integer(trials):
     try: 
             idx = int(trials)
@@ -18,7 +18,7 @@ def integer(trials):
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-@app.route('/geometric/<float:n>/<int:trials>', methods=['GET'])
+@application.route('/geometric/<float:n>/<int:trials>', methods=['GET'])
 def geometric(n, trials):
     n = round(n,5)
     try:
@@ -27,7 +27,7 @@ def geometric(n, trials):
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-@app.route('/binomial/<float:n>/<int:trials>', methods=['GET'])
+@application.route('/binomial/<float:n>/<int:trials>', methods=['GET'])
 def binomial(n, trials):
     n = round(n,5)
     try:
@@ -37,7 +37,7 @@ def binomial(n, trials):
         return jsonify({"error": str(e)}), 400
     
 
-@app.route('/bernoulli/<float:n>', methods=['GET'])
+@application.route('/bernoulli/<float:n>', methods=['GET'])
 def bernoulli(n):
     n = round(n,5)
     try:
@@ -49,4 +49,4 @@ def bernoulli(n):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    application.run()
